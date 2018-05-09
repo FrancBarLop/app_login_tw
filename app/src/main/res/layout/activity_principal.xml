@@ -11,7 +11,7 @@
         android:id="@+id/textV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="                citlaly"
+        android:text="                cambio desde githup"
         android:textSize="25sp"
         android:textStyle="bold" />
 
