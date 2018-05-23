@@ -3,39 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.example.fran.app_login_tw.principal">
+    android:orientation="vertical"
+    tools:context="com.example.fran.app_login_tw.inicio">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="                Nuevo Integrante"
+        android:text="                Información Personal"
         android:textSize="25sp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="283dp"
-        android:layout_height="154dp"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_below="@+id/textView"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/usu" />
-
-    <Button
-        android:id="@+id/btncargar"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-
-        android:layout_gravity="center"
-
-        android:onClick="oncli"
-        android:text="Editar" />
-
 
     <EditText
         android:id="@+id/edinombre"
@@ -96,18 +74,14 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="85dp"
         tools:layout_editor_absoluteY="403dp" />
-
     <Button
         android:id="@+id/btnguardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:text="Guardar"
-        android:textColor="#ffff"
         android:layout_gravity="center"
-
-        />
-
-
+        android:background="@color/colorAccent"
+        android:text="Mostrar"
+        android:textColor="#ffff"
+        android:onClick="ocl"/>
 
 </LinearLayout>

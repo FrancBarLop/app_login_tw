@@ -18,6 +18,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,11 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import java.io.File;
+import java.security.MessageDigest;
 import java.security.Principal;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class principal extends AppCompatActivity implements View.OnClickListener {
@@ -45,6 +50,9 @@ public class principal extends AppCompatActivity implements View.OnClickListener
     private final String RUTA_IMAGEN=CARPETA_RAIZ+"misFotos";
     final int COD_SELECCIONA=10;
     final int COD_FOTO=20;
+
+    String inputPassword="tespassword";
+    String AES ="AES";
 
     EditText etnombre, etappater, etapmater, etusuario, etpassvord;
     Button botonCargar, btnguardar;
@@ -239,8 +247,6 @@ public class principal extends AppCompatActivity implements View.OnClickListener
         final String nombre = etnombre.getText().toString();
         final String apepaterno = etappater.getText().toString();
         final String apematerno = etapmater.getText().toString();
-        final String nomusuario = etusuario.getText().toString();
-        final String password = etpassvord.getText().toString();
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
@@ -250,7 +256,7 @@ public class principal extends AppCompatActivity implements View.OnClickListener
                     boolean success= jsonReponse.getBoolean("success");
 
                     if (success){
-                        Intent intent = new Intent(principal.this,principal.class);
+                        Intent intent = new Intent(principal.this,plog.class);
                         principal.this.startActivity(intent);
                     } else{
                         AlertDialog.Builder builder = new AlertDialog.Builder(principal.this);
@@ -265,8 +271,31 @@ public class principal extends AppCompatActivity implements View.OnClickListener
                 }
             }
         };
-      RegisterRequest registerRequest = new RegisterRequest(nombre,apepaterno,apematerno,nomusuario,password,responseListener);
+        RegisterRequest registerRequest = null;
+        try {
+            registerRequest = new RegisterRequest(encrypt(nombre,inputPassword),encrypt(apepaterno,inputPassword),encrypt(apematerno,inputPassword),encrypt(etusuario.getText().toString(),inputPassword),encrypt(etpassvord.getText().toString(),inputPassword),responseListener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         RequestQueue queue = Volley.newRequestQueue(principal.this);
         queue.add(registerRequest);
+    }
+
+    private String encrypt(String dato, String password) throws Exception{
+       SecretKeySpec key = generarkey(password);
+        Cipher c = Cipher.getInstance(AES);
+        c.init(Cipher.ENCRYPT_MODE,key);
+        byte[] encVal= c.doFinal(dato.getBytes());
+        String encrypto= Base64.encodeToString(encVal,Base64.DEFAULT);
+        return encrypto;
+    }
+
+    private SecretKeySpec generarkey(String password) throws Exception {
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = password.getBytes("UTF-8");
+        digest.update(bytes,0,bytes.length);
+        byte[] key = digest.digest();
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        return secretKeySpec;
     }
 }
