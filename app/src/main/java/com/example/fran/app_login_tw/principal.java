@@ -256,7 +256,7 @@ public class principal extends AppCompatActivity implements View.OnClickListener
                     boolean success= jsonReponse.getBoolean("success");
 
                     if (success){
-                        Intent intent = new Intent(principal.this,plog.class);
+                        Intent intent = new Intent(principal.this,principal.class);
                         principal.this.startActivity(intent);
                     } else{
                         AlertDialog.Builder builder = new AlertDialog.Builder(principal.this);
